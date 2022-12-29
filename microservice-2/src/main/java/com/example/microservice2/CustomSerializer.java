@@ -7,7 +7,7 @@ import org.apache.kafka.common.serialization.Serializer;
 import java.util.Map;
 
 public class CustomSerializer implements Serializer<MessageDto> {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+//    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
@@ -21,7 +21,8 @@ public class CustomSerializer implements Serializer<MessageDto> {
                 return null;
             }
             System.out.println("Serializing...");
-            return objectMapper.writeValueAsBytes(data);
+            return JsonHelper.toJsonByteArray(data);
+//            return objectMapper.writeValueAsBytes(data);
         } catch (Exception e) {
             throw new SerializationException("Error when serializing MessageDto to byte[]");
         }

@@ -39,6 +39,14 @@ public final class JsonHelper {
         }
     }
 
+    public static byte[] toJsonByteArray(Object object) {
+        try {
+            return mapper.writeValueAsBytes(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static JsonNode getJsonNode(String json) {
         return fromJson(json, JsonNode.class);
     }

@@ -72,7 +72,7 @@ public class KafkaConfig {
 //        config.put(JsonDeserializer.KEY_DEFAULT_TYPE, "com.example.MyKey");
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
         config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "com.example.microservice3.MessageDto");
-        config.put(JsonSerializer.TYPE_MAPPINGS, "MessageDto:com.example.microservice3.MessageDto");
+//        config.put(JsonSerializer.TYPE_MAPPINGS, "MessageDto:com.example.microservice3.MessageDto");
 
 
 //        config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");

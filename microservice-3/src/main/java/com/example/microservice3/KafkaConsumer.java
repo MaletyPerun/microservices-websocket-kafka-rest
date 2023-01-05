@@ -1,7 +1,9 @@
 package com.example.microservice3;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -13,19 +15,28 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class KafkaConsumer {
+
+    @Autowired
+    private final MessageService messageService;
     @KafkaListener(topics = "kafka-service-demo",
             groupId = "messageConfig",
             containerFactory = "messageListener")
     // Method
 //    public void consume(MessageDto messageDto) {
-    public void consume(ConsumerRecord<String, MessageDto> record) {
+//    public void consume(ConsumerRecord<String, MessageDto> record) {
+    public void consume(MessageDto messageDto) {
 //    public void consume(@Payload MessageDto messageDto) {
 //    public void consume(String messageDto) {
         // Print statement
-        MessageDto received = record.value();
-        log.info("message = {}", received);
-        System.out.println("message = " + received);
+//        MessageDto received = record.value();
+//        log.info("message = {}", received);
+//        System.out.println("message = " + received);
+
+        log.info("message = {}", messageDto);
+        log.info("id message = {}", messageDto.getId());
+        messageService.sendToMS1(messageDto);
     }
 }
 

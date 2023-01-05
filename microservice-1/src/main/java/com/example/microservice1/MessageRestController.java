@@ -2,6 +2,7 @@ package com.example.microservice1;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.TextMessage;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 @RequestMapping("/MS1")
 @RequiredArgsConstructor
+@Slf4j
 public class MessageRestController {
     private final MessageService messageService;
 
@@ -106,6 +108,16 @@ public class MessageRestController {
             }
         }
         return "it`s work";
+    }
+
+
+//    localhost:53251/MS1/service
+    @PostMapping("/service")
+    public String takeMesFromMS3(@RequestBody MessageDto messageDto) {
+        log.info("take mes from MS3 = {}", messageDto);
+        log.info("mesId = {}", messageDto.getId());
+        messageService.saveEndMessage(messageDto);
+        return "It`s take in service";
     }
 
     private void stopWork() {

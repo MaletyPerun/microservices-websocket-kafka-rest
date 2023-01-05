@@ -13,6 +13,8 @@ public class AppConfig {
     @Profile("Dev")
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {
+        // TODO: 05.01.2023 разобраться с подключением к БД и в IDEA просматривать сохраненные сущности: смотреть стажировку
+        // TODO: 05.01.2023 правильно подключить БД к проекту
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 }

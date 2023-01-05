@@ -1,16 +1,36 @@
 package com.example.microservice2;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
-@Controller
+@RestController
+@Slf4j
+@RequestMapping("/MS2")
 public class MessageController {
+
+    private final MessageService messageService;
 
     @MessageMapping("/hello")
     public void greeting(MessageDto messageDto) throws Exception {
         Thread.sleep(1000); // simulated delay
+    }
+
+
+    @GetMapping("/test")
+    public String test() {
+        MessageDto created = MessageDto.builder()
+                .id(56)
+                .session_id(234)
+                .MC1_timestamp(TimeUtil.getDateTime())
+                .build();
+        messageService.sendTestMessage(created);
+        log.info("test message with id = {}, session_id = {}", created.getId(), created.getSession_id());
+        return created.toString();
     }
 
 

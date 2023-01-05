@@ -15,13 +15,21 @@ public class MessageUtil {
     }
 
     public static MessageDto messageToDto(Message message) {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setId(message.getId());
-        messageDto.setSession_id(message.getSession_id());
-        messageDto.setMC1_timestamp(message.getMC1_timestamp());
-        messageDto.setMC2_timestamp(message.getMC2_timestamp());
-        messageDto.setMC3_timestamp(message.getMC3_timestamp());
-        messageDto.setEnd_timestamp(message.getEnd_timestamp());
-        return messageDto;
+//        MessageDto messageDto = new MessageDto();
+//        messageDto.setId(message.getId());
+//        messageDto.setSession_id(message.getSession_id());
+//        messageDto.setMC1_timestamp(message.getMC1_timestamp());
+//        messageDto.setMC2_timestamp(message.getMC2_timestamp());
+//        messageDto.setMC3_timestamp(message.getMC3_timestamp());
+//        messageDto.setEnd_timestamp(message.getEnd_timestamp());
+//        return messageDto;
+        return MessageDto.builder()
+                .id(message.getId())
+                .session_id(message.getSession_id())
+                .MC1_timestamp(message.getMC1_timestamp())
+                .MC2_timestamp(message.getMC2_timestamp())
+                .MC3_timestamp(message.getMC3_timestamp())
+                .end_timestamp(message.getEnd_timestamp())
+                .build();
     }
 }

@@ -78,7 +78,7 @@ public class MessageRestController {
             StandardWebSocketClient client = new StandardWebSocketClient();
             WebSocketSession session = null;
 //            MessageDto created = messageService.createMessage(sessionId.getAndIncrement());
-            MessageDto created = messageService.createMessage(sessionId.getAndIncrement());
+            MessageDto created = messageService.createMessage(sessionId.get());
             String message = JsonHelper.toJson(created);
 
             try {
@@ -113,6 +113,7 @@ public class MessageRestController {
     }
 
     private void startWork() {
+        sessionId.getAndIncrement();
         FLAG_WORK = true;
     }
 

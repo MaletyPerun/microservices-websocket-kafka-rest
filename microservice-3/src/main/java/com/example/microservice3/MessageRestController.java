@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class MessageRestController {
 
     public String sendToMS1(MessageDto messageDto) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<MessageDto> entity = new HttpEntity<>(messageDto,headers);
 
         return restTemplate.exchange(

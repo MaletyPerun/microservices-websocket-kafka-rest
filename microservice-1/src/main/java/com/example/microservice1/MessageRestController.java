@@ -11,6 +11,7 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 import java.io.IOException;
 import java.net.http.WebSocket;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -21,9 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MessageRestController {
     private final MessageService messageService;
 
-//    private final MessageController messageController;
-
-//    private final WebSocket webSocket;
     private static boolean FLAG_WORK = false;
     private static AtomicInteger sessionId = new AtomicInteger(0);
 
@@ -37,6 +35,11 @@ public class MessageRestController {
     @GetMapping("/init")
     public String initMethod() {
         return "It`s work";
+    }
+
+    @GetMapping("/all")
+    public List<Message> getAll() {
+        return messageService.getAll();
     }
 
     @GetMapping("/check")
@@ -114,9 +117,8 @@ public class MessageRestController {
 //    localhost:53251/MS1/service
     @PostMapping("/service")
     public String takeMesFromMS3(@RequestBody MessageDto messageDto) {
-        log.info("take mes from MS3 = {}", messageDto);
-        log.info("mesId = {}", messageDto.getId());
         messageService.saveEndMessage(messageDto);
+        stopWork();
         return "It`s take in service";
     }
 

@@ -23,6 +23,8 @@ public class MessageUtil {
 //        messageDto.setMC3_timestamp(message.getMC3_timestamp());
 //        messageDto.setEnd_timestamp(message.getEnd_timestamp());
 //        return messageDto;
+
+
         return MessageDto.builder()
                 .id(message.getId())
                 .session_id(message.getSession_id())

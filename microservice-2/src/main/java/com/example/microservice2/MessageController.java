@@ -23,14 +23,16 @@ public class MessageController {
 
     @GetMapping("/test")
     public String test() {
-        MessageDto created = MessageDto.builder()
-                .id(56)
-                .session_id(234)
-                .MC1_timestamp(TimeUtil.getDateTime())
-                .build();
-        messageService.sendTestMessage(created);
-        log.info("test message with id = {}, session_id = {}", created.getId(), created.getSession_id());
-        return created.toString();
+//        MessageDto created = MessageDto.builder()
+//                .id(56)
+//                .session_id(234)
+//                .MC1_timestamp(TimeUtil.getDateTime())
+//                .build();
+//        messageService.sendMessage(created);
+//        log.info("test message with id = {}, session_id = {}", created.getId(), created.getSession_id());
+//        return created.toString();
+
+        return "It`s closed";
     }
 
 

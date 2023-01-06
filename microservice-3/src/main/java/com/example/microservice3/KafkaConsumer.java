@@ -34,8 +34,6 @@ public class KafkaConsumer {
 //        log.info("message = {}", received);
 //        System.out.println("message = " + received);
 
-        log.info("message = {}", messageDto);
-        log.info("id message = {}", messageDto.getId());
         messageService.sendToMS1(messageDto);
     }
 }

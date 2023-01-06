@@ -22,6 +22,12 @@ public class MessageService {
 
     public void sendToMS1(MessageDto messageDto) {
         messageDto.setMC3_timestamp(TimeUtil.getDateTime());
+        log.info("received mes id = {}", messageDto.getId());
+        log.info("received mes session_id = {}", messageDto.getSession_id());
+        log.info("received mes time MS1 = {}", messageDto.getMC1_timestamp());
+        log.info("received mes time MS2 = {}", messageDto.getMC2_timestamp());
+        log.info("received mes time MS3 = {}", messageDto.getMC3_timestamp());
+        log.info("received mes time end = {}", messageDto.getEnd_timestamp());
         controller.sendToMS1(messageDto);
     }
 }

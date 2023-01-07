@@ -19,7 +19,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+//    @NotNull
     @Column(name = "session_id", nullable = false)
     private int session_id;
 

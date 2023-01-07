@@ -27,8 +27,9 @@ public class MessageRestController {
 
 
     @GetMapping("/message")
-    public ResponseEntity<MessageDto> getMessage(@RequestParam int id) {
-        MessageDto mes = messageService.getMessage(id);
+    public ResponseEntity<Message> getMessage(@RequestParam int id) {
+//        MessageDto mes = messageService.getMessage(id);
+        Message mes = messageService.getMessage(id);
         return ResponseEntity.ok(mes);
     }
 
@@ -118,7 +119,8 @@ public class MessageRestController {
     @PostMapping("/service")
     public String takeMesFromMS3(@RequestBody MessageDto messageDto) {
         messageService.saveEndMessage(messageDto);
-        stopWork();
+        sendNewMessage();
+//        stopWork();
         return "It`s take in service";
     }
 

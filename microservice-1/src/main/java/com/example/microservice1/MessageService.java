@@ -14,8 +14,23 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-    public MessageDto getMessage(int id) {
-        return new MessageDto();
+    public Message getMessage(int id) {
+
+        // TODO: 07.01.2023 работает, когда нахожу из findAll, через getReferenceById - выдает ошибку: объект полностью не подгружается, поля пустые
+//        return MessageUtil.messageToDto(messageRepository.getReferenceById(id));
+//        Message mes = messageRepository.getReferenceById(id);
+        List<Message> list = messageRepository.findAll();
+        Message mesFromList = list.stream()
+                .filter(x -> x.getId() == id)
+                .findFirst()
+                .orElse(null);
+        log.info("mesFromList = {}", mesFromList);
+        log.info("mes MS1_time = {}", mesFromList.getMC1_timestamp());
+        log.info("mes id = {}", mesFromList.getId());
+        log.info("mes session = {}", mesFromList.getSession_id());
+//        log.info("mes session_id = {}", mes.getSession_id());
+//        return messageRepository.getReferenceById(id);
+        return mesFromList;
     }
 
     public MessageDto createMessage(int sessionId) {
@@ -38,6 +53,7 @@ public class MessageService {
 
     public void saveMessage(MessageDto messageDto) {
         Message message = MessageUtil.dtoToMessage(messageDto);
+        log.info("mes before save and flush = {}", message);
         messageRepository.saveAndFlush(message);
     }
 

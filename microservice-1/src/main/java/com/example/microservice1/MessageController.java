@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 @AllArgsConstructor
 public class MessageController {
 
-    private final MessageService messageService;
-
-    @MessageMapping("/sendMessage")
-    @SendTo("/topic/activity")
-    public MessageDto sendNewMessage(int andIncrement) {
-        return messageService.createMessage(andIncrement);
-    }
+//    private final MessageService messageService;
+//
+//    @MessageMapping("/sendMessage")
+//    @SendTo("/topic/activity")
+//    public MessageDto sendNewMessage(int andIncrement) {
+//        return messageService.createMessage(andIncrement);
+//    }
 
 }

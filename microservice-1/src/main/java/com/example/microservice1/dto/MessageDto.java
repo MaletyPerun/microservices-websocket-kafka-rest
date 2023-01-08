@@ -1,6 +1,7 @@
-package com.example.microservice1;
+package com.example.microservice1.dto;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Data
+@AllArgsConstructor
 public class MessageDto implements Serializable {
 
     @Serial

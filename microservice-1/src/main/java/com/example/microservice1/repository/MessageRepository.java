@@ -1,9 +1,8 @@
-package com.example.microservice1;
+package com.example.microservice1.repository;
 
+import com.example.microservice1.model.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 //@Repository

@@ -1,4 +1,4 @@
-package com.example.microservice1;
+package com.example.microservice1.config;
 
 import org.h2.tools.Server;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,6 @@ public class AppConfig {
     @Profile("Dev")
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {
-        // TODO: 05.01.2023 разобраться с подключением к БД и в IDEA просматривать сохраненные сущности: смотреть стажировку
         return Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
     }
 }
@@ -21,7 +20,7 @@ public class AppConfig {
 
 // TODO: 05.01.2023 ПЛАН
 // 1. настроить цепочку передачи сообщения (готово) + логику запуска и остановки взаимодействия между сервисами (готово)
-// 1.1 добавить задержки во время заполнения полей в микросервисах (готово)
+// 1.1 добавить задержки во время заполнения полей в микросервисах (готово) UPD: понизить задержку
 // 1.2 настроить структурный (по полям) формат записи сущности в БД (спросить)
 // 2. настроить просмотр сущностей в БД (готово: через RestApi MS1)
 // 3. настроить сохранение сообщений в БД (готово)

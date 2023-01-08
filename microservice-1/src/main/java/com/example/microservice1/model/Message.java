@@ -1,7 +1,6 @@
-package com.example.microservice1;
+package com.example.microservice1.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 
@@ -13,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Message {
 
     @Id
@@ -20,9 +20,8 @@ public class Message {
     private int id;
 
     // FIXME: 08.01.2023 поправить валидацию полей
-//    @NotNull
     @Column(name = "session_id")
-    private int session_id;
+    private int session;
 
     @Column(name = "MC1_timestamp")
     private LocalDateTime MC1_timestamp;

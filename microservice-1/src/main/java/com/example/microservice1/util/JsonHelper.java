@@ -1,4 +1,4 @@
-package com.example.microservice1;
+package com.example.microservice1.util;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -8,12 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 /**
  * Created by sergey on 2/2/17.
  */
+@Slf4j
 public final class JsonHelper {
     private static ObjectMapper mapper;
 
@@ -28,20 +30,10 @@ public final class JsonHelper {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
+            log.error("error with conversation into JSON = {}", e.getMessage());
+            // TODO: 08.01.2023 обработка исключений
             throw new RuntimeException(e);
         }
-    }
-
-    public static <T> T fromJson(String json, Class<T> type) {
-        try {
-            return mapper.readValue(json, type);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static JsonNode getJsonNode(String json) {
-        return fromJson(json, JsonNode.class);
     }
 
     private JsonHelper() {}

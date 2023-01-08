@@ -1,4 +1,4 @@
-package com.example.microservice1;
+package com.example.microservice1.util;
 
 import lombok.experimental.UtilityClass;
 

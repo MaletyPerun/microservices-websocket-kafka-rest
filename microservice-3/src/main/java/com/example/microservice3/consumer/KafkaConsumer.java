@@ -18,7 +18,7 @@ public class KafkaConsumer {
             containerFactory = "messageListener")
     public void consume(MessageDto received) {
         log.info("take dto from kafka-producer via kafka-consumer = {}", received.toString());
-        messageService.sendToMS1(received);
+        messageService.sendDtoToMS1(received);
     }
 }
 

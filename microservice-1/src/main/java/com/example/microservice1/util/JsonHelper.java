@@ -9,10 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class JsonHelper {
-    private static ObjectMapper mapper;
+    private static final ObjectMapper mapper;
 
     static {
         mapper = new ObjectMapper();
+//        https://howtodoinjava.com/jackson/java-8-date-time-type-not-supported-by-default/
         mapper.registerModule(new JavaTimeModule());
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);

@@ -12,7 +12,7 @@ public class MessageUtil {
     public static Message dtoToMessage(MessageDto messageDto) {
         log.info("from dto to message = {}", messageDto);
         return new Message(messageDto.getId(),
-                messageDto.getSession_id(),
+                messageDto.getSession(),
                 messageDto.getMC1_timestamp(),
                 messageDto.getMC2_timestamp(),
                 messageDto.getMC3_timestamp(),

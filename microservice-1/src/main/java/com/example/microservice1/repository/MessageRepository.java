@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-//@Repository
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
 //    https://javarush.com/groups/posts/3099-spring-ehto-ne-strashno--ili-kak-zadatjh-vopros-bd
+// TODO: 08.01.2023 ВОИ
     Message findMessageById(int id);
 }

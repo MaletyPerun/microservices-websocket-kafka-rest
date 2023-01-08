@@ -28,6 +28,7 @@ public class MessageWebSocketController {
         WebSocketSession session = null;
         String message = JsonHelper.toJson(newMessageDto);
 
+        // TODO: 08.01.2023 ВОИ
         try {
             CompletableFuture<WebSocketSession> fut = client.execute(webSocketHandler, URI_WEBSOCKET);
             session = fut.get();

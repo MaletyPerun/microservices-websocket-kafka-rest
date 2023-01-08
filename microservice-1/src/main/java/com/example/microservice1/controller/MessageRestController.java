@@ -17,9 +17,8 @@ import java.util.List;
 public class MessageRestController {
 
     // TODO: 08.01.2023 везде возвращать ResponseEntity
+    // TODO: 08.01.2023 ВОИ
     private final MessageService messageService;
-
-    // TODO: 08.01.2023 проверить перезапись сущности с одним и тем же id
 
     @GetMapping("/START")
     public String start() {
@@ -51,9 +50,8 @@ public class MessageRestController {
 
 //    localhost:53251/MS1/service
     @PostMapping("/service")
-    public String takeMesFromMS3(@RequestBody MessageDto messageDto) {
-        log.info("take dto from MS3 = {}", messageDto);
-        messageService.saveEndMessage(messageDto);
-        return "It`s take in service";
+    public void takeDtoFromMS3(@RequestBody MessageDto received) {
+        log.info("take dto from MS3 = {}", received);
+        messageService.saveEndMessage(received);
     }
 }

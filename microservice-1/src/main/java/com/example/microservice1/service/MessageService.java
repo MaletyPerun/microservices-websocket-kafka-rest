@@ -22,6 +22,7 @@ public class MessageService {
     // обработка исключений с БД
 
     // TODO: 08.01.2023 тут же смотреть дублирование id и сессии (раздел добавление и удаление)
+    // TODO: 08.01.2023 ВОИ
 
     private final MessageRepository messageRepository;
 
@@ -32,35 +33,32 @@ public class MessageService {
     private static boolean flagWork = false;
 
     public Message getMessage(int id) {
-        // FIXME: 08.01.2023 проверка на существующий id
         Message getMessage = messageRepository.findMessageById(id);
         log.info("get message from DB = {}", getMessage);
         return getMessage;
     }
 
     public MessageDto createMessage(int sessionId) {
-
         Message buildMessage = Message.builder()
                 .session(sessionId)
                 .MC1_timestamp(TimeUtil.getDateTime())
                 .build();
         Message created = messageRepository.save(buildMessage);
         log.info("created and saved in DB message = {}", created);
-
         // TODO: 23.12.2022 добавить проверку на id нового сообщения
         return MessageUtil.messageToDto(created);
     }
 
-    public void saveEndMessage(MessageDto messageDto) {
+    public void saveEndMessage(MessageDto received) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.error("error with sleep = {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
-        Message message = MessageUtil.dtoToMessage(messageDto);
-        message.setEnd_timestamp(TimeUtil.getDateTime());
-        messageRepository.save(message);
+        Message endMessage = MessageUtil.dtoToMessage(received);
+        endMessage.setEnd_timestamp(TimeUtil.getDateTime());
+        messageRepository.save(endMessage);
 
         if (flagWork) {
             sendMessageViaWebSocket(SESSION_ID.get());

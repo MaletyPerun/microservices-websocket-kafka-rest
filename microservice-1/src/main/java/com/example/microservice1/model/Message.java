@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Builder;
+import lombok.ToString;
 
 
 import java.time.LocalDateTime;
@@ -17,7 +18,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Message {
+
+    // TODO: 08.01.2023 ВОИ
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

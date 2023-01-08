@@ -25,7 +25,7 @@ public final class JsonHelper {
         try {
             return mapper.readValue(json, type);
         } catch (IOException e) {
-            log.error("error with conversation into JSON = {}", e.getMessage());
+            log.error("error with conversation in JSON = {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

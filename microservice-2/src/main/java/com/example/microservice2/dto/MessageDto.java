@@ -1,8 +1,13 @@
 package com.example.microservice2.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
+import lombok.Setter;
+import lombok.Getter;
+import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,7 +27,7 @@ public class MessageDto implements Serializable {
     @NotNull
     private int id;
     @NotNull
-    private int session_id;
+    private int session;
     private LocalDateTime MC1_timestamp;
     private LocalDateTime MC2_timestamp;
     private LocalDateTime MC3_timestamp;

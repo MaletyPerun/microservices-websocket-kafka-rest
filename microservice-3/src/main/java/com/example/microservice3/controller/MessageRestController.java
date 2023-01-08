@@ -19,7 +19,7 @@ public class MessageRestController {
 
     private final RestTemplate restTemplate;
 
-    public void sendToMS1(MessageDto received) {
+    public void sendDtoToMS1(MessageDto received) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<MessageDto> entity = new HttpEntity<>(received,headers);

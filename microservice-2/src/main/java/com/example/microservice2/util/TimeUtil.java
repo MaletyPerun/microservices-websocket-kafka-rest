@@ -1,7 +1,10 @@
 package com.example.microservice2.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.LocalDateTime;
 
+@UtilityClass
 public class TimeUtil {
 
     public static LocalDateTime getDateTime() {

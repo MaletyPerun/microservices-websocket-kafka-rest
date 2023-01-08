@@ -14,7 +14,7 @@ public class MessageService {
 
     private final MessageRestController messageController;
 
-    public void sendToMS1(MessageDto received) {
+    public void sendDtoToMS1(MessageDto received) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -22,7 +22,7 @@ public class MessageService {
             Thread.currentThread().interrupt();
         }
         received.setMC3_timestamp(TimeUtil.getDateTime());
-        messageController.sendToMS1(received);
+        messageController.sendDtoToMS1(received);
     }
 }
 

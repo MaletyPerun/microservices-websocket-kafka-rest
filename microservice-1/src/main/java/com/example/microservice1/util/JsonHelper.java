@@ -30,6 +30,4 @@ public final class JsonHelper {
             throw new RuntimeException(e);
         }
     }
-
-    private JsonHelper() {}
 }

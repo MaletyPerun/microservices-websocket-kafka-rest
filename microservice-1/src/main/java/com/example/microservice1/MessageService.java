@@ -12,6 +12,11 @@ import java.util.List;
 @Slf4j
 public class MessageService {
 
+    // TODO: 08.01.2023 https://devmark.ru/article/crud-repository
+    // обработка исключений с БД
+
+    // TODO: 08.01.2023 тут же смотреть дублирование id и сессии (раздел добавление и удаление)
+
     private final MessageRepository messageRepository;
 
     public Message getMessage(int id) {
@@ -19,18 +24,19 @@ public class MessageService {
         // TODO: 07.01.2023 работает, когда нахожу из findAll, через getReferenceById - выдает ошибку: объект полностью не подгружается, поля пустые
 //        return MessageUtil.messageToDto(messageRepository.getReferenceById(id));
 //        Message mes = messageRepository.getReferenceById(id);
-        List<Message> list = messageRepository.findAll();
-        Message mesFromList = list.stream()
-                .filter(x -> x.getId() == id)
-                .findFirst()
-                .orElse(null);
-        log.info("mesFromList = {}", mesFromList);
-        log.info("mes MS1_time = {}", mesFromList.getMC1_timestamp());
-        log.info("mes id = {}", mesFromList.getId());
-        log.info("mes session = {}", mesFromList.getSession_id());
+//        List<Message> list = messageRepository.findAll();
+//        Message mesFromList = list.stream()
+//                .filter(x -> x.getId() == id)
+//                .findFirst()
+//                .orElse(null);
+        Message getMessage = messageRepository.findMessageById(id);
+        log.info("mesFromList = {}", getMessage);
+        log.info("mes MS1_time = {}", getMessage.getMC1_timestamp());
+        log.info("mes id = {}", getMessage.getId());
+        log.info("mes session = {}", getMessage.getSession_id());
 //        log.info("mes session_id = {}", mes.getSession_id());
 //        return messageRepository.getReferenceById(id);
-        return mesFromList;
+        return getMessage;
     }
 
     public MessageDto createMessage(int sessionId) {
@@ -38,7 +44,7 @@ public class MessageService {
         Message message = new Message();
         message.setSession_id(sessionId);
         message.setMC1_timestamp(TimeUtil.getDateTime());
-        Message created = messageRepository.saveAndFlush(message);
+        Message created = messageRepository.save(message);
 
         log.info("received mes id = {}", message.getId());
         log.info("received mes session_id = {}", message.getSession_id());
@@ -53,8 +59,18 @@ public class MessageService {
 
     public void saveMessage(MessageDto messageDto) {
         Message message = MessageUtil.dtoToMessage(messageDto);
-        log.info("mes before save and flush = {}", message);
-        messageRepository.saveAndFlush(message);
+        log.info("mes before save = {}", message);
+        messageRepository.save(message);
+    }
+
+    // FIXME: 08.01.2023 test
+    public Message saveMessageAndReturn() {
+//        Message testMes = new Message();
+//        MessageDto messageDto = MessageUtil.messageToDto(testMes);
+//        log.info("testMes before save = {}", messageDto);
+        Message testMes = messageRepository.save(new Message());
+        log.info("test mes = {}", testMes);
+        return messageRepository.save(testMes);
     }
 
     public void saveEndMessage(MessageDto messageDto) {
@@ -66,7 +82,7 @@ public class MessageService {
         }
         Message message = MessageUtil.dtoToMessage(messageDto);
         message.setEnd_timestamp(TimeUtil.getDateTime());
-        messageRepository.saveAndFlush(message);
+        messageRepository.save(message);
 //        log.info("received mes id = {}", message.getId());
         log.info("received mes id = {}", message.getId());
         log.info("received mes session_id = {}", message.getSession_id());
@@ -80,6 +96,10 @@ public class MessageService {
 
     public List<Message> getAll() {
         return messageRepository.findAll();
+    }
+
+    public Message getTestMes(int id) {
+        return messageRepository.findMessageById(id);
     }
 }
 

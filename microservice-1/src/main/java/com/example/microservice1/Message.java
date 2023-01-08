@@ -19,11 +19,12 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // FIXME: 08.01.2023 поправить валидацию полей
 //    @NotNull
-    @Column(name = "session_id", nullable = false)
+    @Column(name = "session_id")
     private int session_id;
 
-    @Column(name = "MC1_timestamp", nullable = false)
+    @Column(name = "MC1_timestamp")
     private LocalDateTime MC1_timestamp;
 
     @Column(name = "MC2_timestamp")

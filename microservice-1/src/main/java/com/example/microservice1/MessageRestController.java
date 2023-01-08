@@ -124,6 +124,18 @@ public class MessageRestController {
         return "It`s take in service";
     }
 
+    // FIXME: 08.01.2023 test
+    @GetMapping("/testSave")
+    public ResponseEntity<Message> save() {
+        return ResponseEntity.ok(messageService.saveMessageAndReturn());
+    }
+
+    // FIXME: 08.01.2023 test
+    @GetMapping("/testGet")
+    public ResponseEntity<Message> getTest(@RequestParam int id) {
+        return ResponseEntity.ok(messageService.getTestMes(id));
+    }
+
     private void stopWork() {
         FLAG_WORK = false;
     }

@@ -22,12 +22,18 @@ public class MessageService {
     // TODO: 06.01.2023 переделать под kafkatemplate
 
     public void sendMessage(MessageDto msg) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.error("error with sleep = {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
         msg.setMC2_timestamp(TimeUtil.getDateTime());
 //        LOGGER.info(String.format("\n ===== Producing message in JSON ===== \n"+msg));
-        Message<MessageDto> message = MessageBuilder
-                .withPayload(msg)
-                .setHeader(KafkaHeaders.TOPIC, topic)
-                .build();
+//        Message<MessageDto> message = MessageBuilder
+//                .withPayload(msg)
+//                .setHeader(KafkaHeaders.TOPIC, topic)
+//                .build();
         ProducerRecord<String, MessageDto> received = new ProducerRecord<>(topic, msg);
 //        this.kafkaTemplate.send(topic, msg);
         this.kafkaTemplate.send(received);

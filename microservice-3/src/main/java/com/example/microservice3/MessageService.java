@@ -21,6 +21,12 @@ public class MessageService {
     private final MessageRestController controller;
 
     public void sendToMS1(MessageDto messageDto) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.error("error with sleep = {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
         messageDto.setMC3_timestamp(TimeUtil.getDateTime());
         log.info("received mes id = {}", messageDto.getId());
         log.info("received mes session_id = {}", messageDto.getSession_id());

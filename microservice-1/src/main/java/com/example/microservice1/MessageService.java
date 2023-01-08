@@ -58,6 +58,12 @@ public class MessageService {
     }
 
     public void saveEndMessage(MessageDto messageDto) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.error("error with sleep = {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
         Message message = MessageUtil.dtoToMessage(messageDto);
         message.setEnd_timestamp(TimeUtil.getDateTime());
         messageRepository.saveAndFlush(message);

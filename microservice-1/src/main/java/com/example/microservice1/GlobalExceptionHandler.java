@@ -45,6 +45,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        return createResponseEntity(request, ErrorAttributeOptions.defaults(), "Объект не должен быть пустым", HttpStatus.BAD_REQUEST);
 //    }
 
+
     @SuppressWarnings("unchecked")
     protected <T> ResponseEntity<T> createResponseEntity(WebRequest request, ErrorAttributeOptions options, String msg, HttpStatus status) {
         Map<String, Object> body = errorAttributes.getErrorAttributes(request, options);

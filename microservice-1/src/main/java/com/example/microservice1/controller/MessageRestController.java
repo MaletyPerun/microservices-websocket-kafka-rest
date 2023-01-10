@@ -1,42 +1,50 @@
 package com.example.microservice1.controller;
 
-import com.example.microservice1.service.MessageService;
 import com.example.microservice1.dto.MessageDto;
 import com.example.microservice1.model.Message;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import com.example.microservice1.service.MessageService;
+import com.example.microservice1.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
+
+//import static com.example.microservice1.util.ValidationUtil.checkNotBlank;
 
 @RestController
 @RequestMapping("/MS1")
+@Validated
 @RequiredArgsConstructor
 @Slf4j
 public class MessageRestController {
 
-    // TODO: 08.01.2023 везде возвращать ResponseEntity
-    // TODO: 08.01.2023 ВОИ
     private final MessageService messageService;
 
     @GetMapping("/START")
-    public String start() {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> start() {
         messageService.startWork();
         log.info("start resending messages");
-        return "It`s work";
+        return ResponseEntity.ok("It`s work!");
     }
 
     @GetMapping("/STOP")
-    public String stop() {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> stop() {
         messageService.stopWork();
         log.info("stop resending messages");
-        return "It`s stopped";
+        return ResponseEntity.ok("It`s stopped!");
     }
 
     @GetMapping("/message")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Message> getMessage(@RequestParam int id) {
         Message mes = messageService.getMessage(id);
         log.info("get message = {}", mes);
@@ -44,16 +52,18 @@ public class MessageRestController {
     }
 
     @GetMapping("/all")
-    public List<Message> getAll() {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Message>> getAll() {
         log.info("get all messages");
-        return messageService.getAll();
+        return ResponseEntity.ok(messageService.getAll());
     }
 
 
 //    localhost:53251/MS1/service
     @PostMapping("/service")
-    public void takeDtoFromMS3(@RequestBody @Valid MessageDto received) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Message> takeDtoFromMS3(@RequestBody @Valid @NotNull MessageDto received) {
         log.info("take dto from MS3 = {}", received);
-        messageService.saveEndMessage(received);
+        return ResponseEntity.ok(messageService.saveEndMessage(received));
     }
 }

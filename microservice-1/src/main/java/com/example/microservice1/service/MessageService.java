@@ -51,7 +51,7 @@ public class MessageService {
         return MessageUtil.messageToDto(created);
     }
 
-    public void saveEndMessage(MessageDto received) {
+    public Message saveEndMessage(MessageDto received) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -60,11 +60,11 @@ public class MessageService {
         }
         Message endMessage = MessageUtil.dtoToMessage(received);
         endMessage.setEnd_timestamp(TimeUtil.getDateTime());
-        messageRepository.save(endMessage);
-
+        Message saved = messageRepository.save(endMessage);
         if (flagWork) {
             sendMessageViaWebSocket(SESSION_ID.get());
         }
+        return saved;
     }
 
     public List<Message> getAll() {

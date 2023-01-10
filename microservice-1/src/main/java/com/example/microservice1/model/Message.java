@@ -28,10 +28,10 @@ public class Message {
     private int id;
 
     // FIXME: 08.01.2023 поправить валидацию полей
-    @Column(name = "session_id")
+    @Column(name = "session_id", nullable = false)
     private int session;
 
-    @Column(name = "MC1_timestamp")
+    @Column(name = "MC1_timestamp", nullable = false)
     private LocalDateTime MC1_timestamp;
 
     @Column(name = "MC2_timestamp")

@@ -35,17 +35,19 @@ public class MessageService {
     public Message getMessage(int id) {
         Message getMessage = messageRepository.findMessageById(id);
         log.info("get message from DB = {}", getMessage);
+        if (getMessage == null) {
+            throw new NotFoundException(id);
+        }
         return getMessage;
     }
 
-    public MessageDto createMessage(int sessionId) {
+    public MessageDto createMessage(int session) {
         Message buildMessage = Message.builder()
-                .session(sessionId)
+                .session(session)
                 .MC1_timestamp(TimeUtil.getDateTime())
                 .build();
         Message created = messageRepository.save(buildMessage);
         log.info("created and saved in DB message = {}", created);
-        // TODO: 23.12.2022 добавить проверку на id нового сообщения
         return MessageUtil.messageToDto(created);
     }
 
@@ -66,12 +68,16 @@ public class MessageService {
     }
 
     public List<Message> getAll() {
-        log.info("get all messages from DB");
+        List<Message> list = messageRepository.findAll();
+        log.info("get all messages from DB = {}", list);
+        if (list.isEmpty()) {
+            throw new EmptyException("history is empty");
+        }
         return messageRepository.findAll();
     }
 
-    public void sendMessageViaWebSocket(int id) {
-        MessageDto newMessageDto = createMessage(id);
+    public void sendMessageViaWebSocket(int session) {
+        MessageDto newMessageDto = createMessage(session);
         log.info("create and send new dto = {}", newMessageDto);
         webSocketController.sendMessageVidWebSocket(newMessageDto);
     }

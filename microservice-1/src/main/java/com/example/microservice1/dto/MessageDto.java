@@ -23,9 +23,13 @@ public class MessageDto implements Serializable {
     private int id;
     @NotNull
     private int session;
+    @NotNull
     private LocalDateTime MC1_timestamp;
+    @NotNull
     private LocalDateTime MC2_timestamp;
+    @NotNull
     private LocalDateTime MC3_timestamp;
+    @NotNull
     private LocalDateTime end_timestamp;
 
 }

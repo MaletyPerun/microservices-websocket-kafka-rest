@@ -3,6 +3,8 @@ package com.example.microservice1.controller;
 import com.example.microservice1.service.MessageService;
 import com.example.microservice1.dto.MessageDto;
 import com.example.microservice1.model.Message;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +52,7 @@ public class MessageRestController {
 
 //    localhost:53251/MS1/service
     @PostMapping("/service")
-    public void takeDtoFromMS3(@RequestBody MessageDto received) {
+    public void takeDtoFromMS3(@RequestBody @Valid MessageDto received) {
         log.info("take dto from MS3 = {}", received);
         messageService.saveEndMessage(received);
     }

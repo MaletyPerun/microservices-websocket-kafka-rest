@@ -1,0 +1,27 @@
+#  https://www.google.com/search?q=docker-compose+kafka+spring+boot&bih=821&biw=1440&hl=ru&tbm=vid&sxsrf=AJOqlzUTVQHwE1i5Bj7rsItn3Cm-KsV0VQ%3A1673558189183&ei=rXjAY6_sCrCsrgT1hphI&ved=0ahUKEwjv9oGL-sL8AhUwlosKHXUDBgkQ4dUDCA0&uact=5&oq=docker-compose+kafka+spring+boot&gs_lcp=Cg1nd3Mtd2l6LXZpZGVvEAMyBggAEBYQHjoECCMQJzoICAAQgAQQywE6CQgAEBYQHhDxBDoFCAAQgAQ6CggAEIAEEIcCEBQ6BQghEKABOggIABAWEB4QEzoICCEQFhAeEB06CAgAEAgQHhANULgEWPIrYOgsaABwAHgAgAF1iAHhDpIBBDI1LjGYAQCgAQHAAQE&sclient=gws-wiz-video#fpstate=ive&vld=cid:852e2823,vid:q1kSBcueqYo
+version: '2'
+services:
+  microservice-1:
+    build: ./microservice-1
+    ports:
+      - "53251:53251"
+  microservice-2:
+    build: ./microservice-2
+    ports:
+      - "53252:53252"
+  microservice-3:
+    build: ./microservice-3
+    ports:
+      - "53253:53253"
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "kafka-service-demo:3:1"

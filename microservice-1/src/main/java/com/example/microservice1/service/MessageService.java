@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +31,8 @@ public class MessageService {
     private final MessageWebSocketController webSocketController;
 
     private static final AtomicInteger SESSION_ID = new AtomicInteger(0);
+
+    private static LocalDateTime START_TIME;
 
     private static boolean flagWork = false;
 
@@ -84,14 +88,16 @@ public class MessageService {
 
     public void startWork() {
         SESSION_ID.getAndIncrement();
+        START_TIME = TimeUtil.getDateTime();
         flagWork = true;
         log.info("start work with session = {}", SESSION_ID.get());
         sendMessageViaWebSocket(SESSION_ID.get());
     }
 
-    public void stopWork() {
+    public long stopWork() {
         flagWork = false;
         log.info("stop work with session = {}", SESSION_ID.get());
+        return ChronoUnit.SECONDS.between(START_TIME, TimeUtil.getDateTime());
     }
 }
 

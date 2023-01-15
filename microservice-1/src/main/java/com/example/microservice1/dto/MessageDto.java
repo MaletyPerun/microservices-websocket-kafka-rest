@@ -29,7 +29,7 @@ public class MessageDto implements Serializable {
     private LocalDateTime MC2_timestamp;
     @NotNull
     private LocalDateTime MC3_timestamp;
-    @NotNull
+//    @NotNull
     private LocalDateTime end_timestamp;
 
 }

@@ -1,6 +1,7 @@
 package com.example.microservice1;
 
 import com.example.microservice1.service.EmptyException;
+import com.example.microservice1.service.EndTimeOfWorkException;
 import com.example.microservice1.service.NotFoundException;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmptyException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<Object> handleBlankException(WebRequest request, EmptyException e) {
+        return createResponseEntity(request, e.getOptions(), e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(EndTimeOfWorkException.class)
+    @ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
+    protected ResponseEntity<Object> handleBlankException(WebRequest request, EndTimeOfWorkException e) {
         return createResponseEntity(request, e.getOptions(), e.getMessage(), HttpStatus.NOT_FOUND);
     }
 

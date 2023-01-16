@@ -1,13 +1,16 @@
 package com.example.microservice1.config;
 
 import org.h2.tools.Server;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 import java.sql.SQLException;
 
 @Configuration
+//@PropertySource(value = "classpath:application.yml")
 public class AppConfig {
 
     @Profile("Dev")
@@ -28,5 +31,12 @@ public class AppConfig {
 // 5. настроить валидацию сообщений
 // 6. настроить исключения при ошибках приема-передачи сообщений (исходя из валидации)
 // 7. упаковать все в докер
+// 7-1 указать запуск программы с параметром работы микросервисов
 // 8. подготовить README с инструкцией запуска от gradle-wrapper
 // 9. обновить докер, загрузить в гит и докерхаб
+
+// 2.1 перенести все конфиги кафки в отдельную либу над модулями
+// 2.2
+
+
+// application.ym

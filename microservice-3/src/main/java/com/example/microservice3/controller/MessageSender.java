@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class MessageRestController {
+public class MessageSender {
 
     private final RestTemplate restTemplate;
 

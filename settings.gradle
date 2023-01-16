@@ -1,2 +1,5 @@
 rootProject.name = 'microservices-websocket-kafka-rest'
+include 'microservice-1'
+include 'microservice-2'
+include 'microservice-3'
 

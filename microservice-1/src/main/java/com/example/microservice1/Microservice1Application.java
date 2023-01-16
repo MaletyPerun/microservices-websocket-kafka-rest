@@ -2,8 +2,10 @@ package com.example.microservice1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+//@ComponentScan(basePackages = "com.example")
 public class Microservice1Application {
     // TODO: 11.01.2023 по каждому сервису собраться работающий образ
     // TODO: 11.01.2023 создать головной docker-compose и запустить все образы в одном контейнере

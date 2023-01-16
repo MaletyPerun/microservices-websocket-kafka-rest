@@ -3,7 +3,6 @@ package com.example.microservice1.controller;
 import com.example.microservice1.dto.MessageDto;
 import com.example.microservice1.model.Message;
 import com.example.microservice1.service.MessageService;
-import com.example.microservice1.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
 //import static com.example.microservice1.util.ValidationUtil.checkNotBlank;
@@ -27,7 +25,7 @@ public class MessageRestController {
 
     private final MessageService messageService;
 
-    @GetMapping("/START")
+    @GetMapping("/start")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> start() {
         messageService.startWork();
@@ -35,7 +33,7 @@ public class MessageRestController {
         return ResponseEntity.ok("It`s work!");
     }
 
-    @GetMapping("/STOP")
+    @GetMapping("/stop")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> stop() {
         long endTime = messageService.stopWork();

@@ -1,7 +1,7 @@
 package com.example.microservice3.service;
 
 import com.example.microservice3.util.TimeUtil;
-import com.example.microservice3.controller.MessageRestController;
+import com.example.microservice3.controller.MessageSender;
 import com.example.microservice3.dto.MessageDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class MessageService {
 
-    private final MessageRestController messageController;
+    private final MessageSender messageController;
 
     public void sendDtoToMS1(MessageDto received) {
         try {

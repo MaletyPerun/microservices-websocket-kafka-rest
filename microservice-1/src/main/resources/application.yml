@@ -1,0 +1,33 @@
+logging:
+    pattern:
+        console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
+server:
+    port: 53251
+spring:
+    application:
+        name: microservice-1
+    datasource:
+        driverClassName: org.h2.Driver
+        password: ''
+        url: jdbc:h2:mem:microservice
+        username: sa
+    datasourse:
+        h2:
+            console:
+                enabled: true
+    jpa:
+        defer-datasource-initialization: true
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create
+        open-in-view: false
+        properties:
+            hibernate:
+                default_batch_fetch_size: 20
+                dialect: org.hibernate.dialect.H2Dialect
+                format_sql: true
+                jdbc:
+                    batch_size: 20
+        show-sql: false
+work:
+    time: 10

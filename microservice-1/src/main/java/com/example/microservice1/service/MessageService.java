@@ -7,7 +7,12 @@ import com.example.microservice1.repository.MessageRepository;
 import com.example.microservice1.util.MessageUtil;
 import com.example.microservice1.util.TimeUtil;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class MessageService {
 
@@ -32,7 +37,14 @@ public class MessageService {
 
     private static final AtomicInteger SESSION_ID = new AtomicInteger(0);
 
-    private static LocalDateTime START_TIME;
+    private static LocalDateTime startTime;
+
+    private static LocalDateTime endTime;
+
+    // FIXME: 15.01.2023 правильно вытягивать значение из проперти
+
+    @Value("${work.time}")
+    private int workTimeInSec;
 
     private static boolean flagWork = false;
 
@@ -65,8 +77,10 @@ public class MessageService {
         Message endMessage = MessageUtil.dtoToMessage(received);
         endMessage.setEnd_timestamp(TimeUtil.getDateTime());
         Message saved = messageRepository.save(endMessage);
-        if (flagWork) {
+        if (flagWork && endTime.isBefore(TimeUtil.getDateTime())) {
             sendMessageViaWebSocket(SESSION_ID.get());
+        } else if (endTime.isAfter(TimeUtil.getDateTime())) {
+            throw new EndTimeOfWorkException(endTime.getSecond());
         }
         return saved;
     }
@@ -88,7 +102,11 @@ public class MessageService {
 
     public void startWork() {
         SESSION_ID.getAndIncrement();
-        START_TIME = TimeUtil.getDateTime();
+        startTime = TimeUtil.getDateTime();
+        endTime = startTime.plusSeconds(workTimeInSec);
+        log.info("start time = {}", startTime);
+        log.info("end time = {}", endTime);
+        log.info("sec time of work = {}", workTimeInSec);
         flagWork = true;
         log.info("start work with session = {}", SESSION_ID.get());
         sendMessageViaWebSocket(SESSION_ID.get());
@@ -97,7 +115,7 @@ public class MessageService {
     public long stopWork() {
         flagWork = false;
         log.info("stop work with session = {}", SESSION_ID.get());
-        return ChronoUnit.SECONDS.between(START_TIME, TimeUtil.getDateTime());
+        return ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime());
     }
 }
 

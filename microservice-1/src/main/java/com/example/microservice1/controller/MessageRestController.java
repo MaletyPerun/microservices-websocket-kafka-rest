@@ -36,9 +36,9 @@ public class MessageRestController {
     @GetMapping("/stop")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> stop() {
-        long endTime = messageService.stopWork();
-        log.info("stop resending messages, time of resending = {}", endTime);
-        return ResponseEntity.ok(String.format("work time of microservices is %d sec", endTime));
+//        long endTime = messageService.stopWork();
+//        log.info("stop resending messages, time of resending = {}", endTime);
+        return ResponseEntity.ok(messageService.stopWork());
     }
 
     @GetMapping("/message")

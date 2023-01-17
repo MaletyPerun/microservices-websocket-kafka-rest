@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -24,8 +25,12 @@ public class MessageSender {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<MessageDto> entity = new HttpEntity<>(received,headers);
         log.info("send dto on restTemplate = {}", received.toString());
-        restTemplate.exchange(
-                "http://localhost:53251/MS1/service", HttpMethod.POST, entity, String.class);
+        try {
+            restTemplate.exchange(
+                    "http://localhost:53251/MS1/service", HttpMethod.POST, entity, String.class);
+        } catch (RestClientException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

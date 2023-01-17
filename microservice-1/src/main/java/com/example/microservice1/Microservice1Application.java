@@ -14,7 +14,6 @@ public class Microservice1Application {
     // TODO: 13.01.2023 подготовить dockerfile на каждый микросервис
     // TODO: 13.01.2023 подготовить docker-compose
 
-    // TODO: 13.01.2023 проблема: какой-то сервис отваливается, скорее всего второй, так как не логировался
     public static void main(String[] args) {
         SpringApplication.run(Microservice1Application.class, args);
     }

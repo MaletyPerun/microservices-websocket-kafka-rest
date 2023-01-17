@@ -77,10 +77,14 @@ public class MessageService {
         Message endMessage = MessageUtil.dtoToMessage(received);
         endMessage.setEnd_timestamp(TimeUtil.getDateTime());
         Message saved = messageRepository.save(endMessage);
-        if (flagWork && endTime.isBefore(TimeUtil.getDateTime())) {
+
+        if (endTime.isAfter(TimeUtil.getDateTime()) && flagWork) {
             sendMessageViaWebSocket(SESSION_ID.get());
-        } else if (endTime.isAfter(TimeUtil.getDateTime())) {
-            throw new EndTimeOfWorkException(endTime.getSecond());
+        } else if (endTime.isBefore(TimeUtil.getDateTime())) {
+            log.info("time is out");
+        } else {
+            log.info("time of work is = {}", ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime()));
+            log.info("amount of all messages = {}", getAll().size());
         }
         return saved;
     }
@@ -112,10 +116,13 @@ public class MessageService {
         sendMessageViaWebSocket(SESSION_ID.get());
     }
 
-    public long stopWork() {
+    public String stopWork() {
+        // TODO: 17.01.2023 проверка на дублирвоание остановки
         flagWork = false;
+        int amount = messageRepository.findMessagesBySession(SESSION_ID.get()).size();
+        long time = endTime.isBefore(TimeUtil.getDateTime()) ? workTimeInSec : ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime());
         log.info("stop work with session = {}", SESSION_ID.get());
-        return ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime());
+        return String.format("stop work. Work time = %d, amount of session messages = %d", time, amount);
     }
 }
 

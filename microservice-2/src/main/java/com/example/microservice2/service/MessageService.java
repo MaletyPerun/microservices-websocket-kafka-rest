@@ -28,6 +28,8 @@ public class MessageService {
         ProducerRecord<String, MessageDto> receivedProducerRecord = new ProducerRecord<>(topic, received);
         log.info("send message via kafka = {}", receivedProducerRecord);
         this.kafkaTemplate.send(receivedProducerRecord);
+
+        // FIXME: 16.01.2023 после окончанию работы по времени kafka продолжает слать сообщения в consumer: как убрать повторные передачи сообщения?
     }
 }
 

@@ -27,5 +27,5 @@ These additional references should also help you:
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
 
-конфигурация времени работы взаимодействия микросервисов - microservice-1/../application.yml 
+конфигурация времени работы взаимодействия микросервисов - microservice-1/../application.yml
 

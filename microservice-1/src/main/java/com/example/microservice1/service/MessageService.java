@@ -43,7 +43,7 @@ public class MessageService {
 
     // FIXME: 15.01.2023 правильно вытягивать значение из проперти
 
-    @Value("${work.time}")
+    @Value("${app.ms1.work.time}")
     private int workTimeInSec;
 
     private static boolean flagWork = false;
@@ -80,18 +80,20 @@ public class MessageService {
 
         if (endTime.isAfter(TimeUtil.getDateTime()) && flagWork) {
             sendMessageViaWebSocket(SESSION_ID.get());
-        } else if (endTime.isBefore(TimeUtil.getDateTime())) {
-            log.info("time is out");
         } else {
-            log.info("time of work is = {}", ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime()));
-            log.info("amount of all messages = {}", getAll().size());
+            stopWork();
+            if (endTime.isBefore(TimeUtil.getDateTime())) {
+                log.info("time is out");
+            }
+//            log.info("time of work is = {} sec", ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime()));
+//            log.info("amount messages of session = {}", messageRepository.findMessageById(SESSION_ID.get()));
         }
         return saved;
     }
 
     public List<Message> getAll() {
         List<Message> list = messageRepository.findAll();
-        log.info("get all messages from DB = {}", list);
+        log.info("get all messages from DB, amount = {}, messages = {}, ", list.size(), list);
         if (list.isEmpty()) {
             throw new EmptyException("history is empty");
         }
@@ -122,7 +124,9 @@ public class MessageService {
         int amount = messageRepository.findMessagesBySession(SESSION_ID.get()).size();
         long time = endTime.isBefore(TimeUtil.getDateTime()) ? workTimeInSec : ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime());
         log.info("stop work with session = {}", SESSION_ID.get());
-        return String.format("stop work. Work time = %d, amount of session messages = %d", time, amount);
+        log.info("time of work is = {} sec", time);
+        log.info("amount messages of session = {}", messageRepository.findMessagesBySession(SESSION_ID.get()).size());
+        return String.format("stop work. Work time = %d sec, amount of session messages = %d", time, amount);
     }
 }
 

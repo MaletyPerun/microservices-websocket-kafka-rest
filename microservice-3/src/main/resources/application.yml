@@ -6,16 +6,17 @@ server:
 spring:
   application:
     name: microservice-3
-#  kafka:
-#    consumer:
-#      bootstrap-servers: localhost:9092
-#      group-id: messageConfig
-#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-#      properties:
-#        spring:
-#          json:
-#            trusted:
-#              packages: '*'
-#spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-#spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: messageConfig
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          json:
+            type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
+            add-type-info-header: false
+            trusted:
+              packages: '*'
+            value-default-type: com.example.microservice3.dto.MessageDto

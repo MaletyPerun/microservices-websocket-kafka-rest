@@ -3,6 +3,7 @@ package com.example.microservice3.config;
 import com.example.microservice3.dto.MessageDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -19,19 +20,34 @@ import java.util.Map;
 @Configuration
 @EnableKafka
 public class KafkaConfig {
+
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    private String server;
+
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
+    @Value("${spring.kafka.consumer.properties.spring.json.type-mapping}")
+    private String typeMappings;
+
+    @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
+    private String trustedPackages;
+
+    @Value("${spring.kafka.consumer.properties.spring.json.value-default-type}")
+    private String valueDefaulType;
     @Bean
     public ConsumerFactory<String, MessageDto> consumerFactory() {
 
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, "messageConfig");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 //        https://www.stackchief.com/blog/Spring%20Boot%20Kafka%20Consumer%20JSON%20Example
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "com.example.microservice3.dto.MessageDto");
-        config.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        config.put(JsonDeserializer.REMOVE_TYPE_INFO_HEADERS, false);
+        config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaulType);
+        config.put(JsonDeserializer.TRUSTED_PACKAGES, trustedPackages);
+//        config.put(JsonDeserializer.REMOVE_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaConsumerFactory<>(config);
     }
 

@@ -27,14 +27,11 @@ public class KafkaConfig {
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
-    @Value("${spring.kafka.consumer.properties.spring.json.type-mapping}")
-    private String typeMappings;
-
     @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
     private String trustedPackages;
 
     @Value("${spring.kafka.consumer.properties.spring.json.value-default-type}")
-    private String valueDefaulType;
+    private String valueDefaultType;
     @Bean
     public ConsumerFactory<String, MessageDto> consumerFactory() {
 
@@ -45,9 +42,8 @@ public class KafkaConfig {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaulType);
+        config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaultType);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, trustedPackages);
-//        config.put(JsonDeserializer.REMOVE_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaConsumerFactory<>(config);
     }
 
@@ -56,7 +52,7 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, MessageDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-//        factory.setConcurrency(3);
+        factory.setConcurrency(3);
 //        factory.setCommonErrorHandler();
         return factory;
     }

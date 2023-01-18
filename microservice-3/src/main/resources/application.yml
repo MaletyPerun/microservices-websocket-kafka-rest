@@ -1,15 +1,21 @@
 logging:
-    pattern:
-        console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
+  pattern:
+    console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
 server:
-    port: 53253
+  port: 53253
 spring:
-    application:
-        name: microservice-3
-    kafka:
-        consumer:
-            properties:
-                spring:
-                    json:
-                        trusted:
-                            packages: '*'
+  application:
+    name: microservice-3
+#  kafka:
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: messageConfig
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: '*'
+#spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+#spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer

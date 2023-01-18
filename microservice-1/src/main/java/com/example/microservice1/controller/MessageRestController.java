@@ -7,18 +7,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-//import static com.example.microservice1.util.ValidationUtil.checkNotBlank;
-
 @RestController
 @RequestMapping("/MS1")
-@Validated
+//@Validated
 @RequiredArgsConstructor
 @Slf4j
 public class MessageRestController {
@@ -36,8 +33,6 @@ public class MessageRestController {
     @GetMapping("/stop")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> stop() {
-//        long endTime = messageService.stopWork();
-//        log.info("stop resending messages, time of resending = {}", endTime);
         return ResponseEntity.ok(messageService.stopWork());
     }
 
@@ -57,7 +52,6 @@ public class MessageRestController {
     }
 
 
-//    localhost:53251/MS1/service
     @PostMapping("/service")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Message> takeDtoFromMS3(@RequestBody @Valid @NotNull MessageDto received) {

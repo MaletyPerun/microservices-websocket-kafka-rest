@@ -1,15 +1,17 @@
 logging:
-    pattern:
-        console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
+  pattern:
+    console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
 server:
-    port: 53252
+  port: 53252
 spring:
-    application:
-        name: microservice-2
-    kafka:
-        consumer:
-            properties:
-                spring:
-                    json:
-                        trusted:
-                            packages: '*'
+  application:
+    name: microservice-2
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      client-id: messageConfig
+      properties:
+        spring:
+          json:
+            type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
+            add-type-info-header: false

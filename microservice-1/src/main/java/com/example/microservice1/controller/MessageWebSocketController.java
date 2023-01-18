@@ -27,38 +27,16 @@ public class MessageWebSocketController {
     public void sendMessageVidWebSocket(MessageDto newMessageDto) {
 
         StandardWebSocketClient client = new StandardWebSocketClient();
-//        WebSocketSession session = null;
         String message = JsonHelper.toJson(newMessageDto);
         CompletableFuture<WebSocketSession> fut = client.execute(webSocketHandler, uriWebsocket);
-
 
         try (WebSocketSession session = fut.get()) {
             session.sendMessage(new TextMessage(message));
         } catch (IOException | ExecutionException e) {
             log.error(e.getMessage());
-            throw new RuntimeException(e);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        // TODO: 08.01.2023 ВОИ
-//        try {
-////            CompletableFuture<WebSocketSession> fut = client.execute(webSocketHandler, uriWebsocket);
-//            // FIXME: 17.01.2023 заменить метод извлечения сессии
-////            session = fut.get();
-////            session.sendMessage(new TextMessage(message));
-////            session.close();
-//
-//        } catch (InterruptedException | IOException | ExecutionException e) {
-//            log.error("error with send via websocket = {}", e.getMessage());
-//        } finally {
-//            try {
-//                if (session != null) {
-//                    session.close();
-//                }
-//            } catch (IOException e) {
-//                log.error("error with closing websocket = {}", e.getMessage());
-//            }
-//        }
     }
 }

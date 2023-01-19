@@ -15,8 +15,6 @@ spring:
       properties:
         spring:
           json:
-            type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
-            add-type-info-header: false
+            type-mapping: MessageDto:com.example.microservice3.dto.MessageDto
             trusted:
-              packages: '*'
-            value-default-type: com.example.microservice3.dto.MessageDto
+              packages: 'MessageDto:com.example.microservice3.dto.MessageDto'

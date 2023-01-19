@@ -19,28 +19,20 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String server;
-
     @Value("${spring.kafka.producer.client-id}")
     private String clientIdConfig;
-
     @Value("${spring.kafka.producer.properties.spring.json.type-mapping}")
     private String typeMappings;
-    @Value("${spring.kafka.producer.properties.spring.json.add-type-info-header}")
-    private String addTypeInfoHeaders;
 
     @Bean
     public ProducerFactory<String, MessageDto> producerFactory() {
 
         Map<String, Object> config = new HashMap<>();
-
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         config.put(ProducerConfig.CLIENT_ID_CONFIG, clientIdConfig);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         config.put(JsonSerializer.TYPE_MAPPINGS, typeMappings);
-        config.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, addTypeInfoHeaders);
-
-        // TODO: 18.01.2023 поиграться с типами заголовков
 
         return new DefaultKafkaProducerFactory<>(config);
     }

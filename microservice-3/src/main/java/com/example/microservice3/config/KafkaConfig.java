@@ -23,15 +23,12 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String server;
-
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
-
+    @Value("${spring.kafka.consumer.properties.spring.json.type-mapping}")
+    private String typeMapping;
     @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
     private String trustedPackages;
-
-    @Value("${spring.kafka.consumer.properties.spring.json.value-default-type}")
-    private String valueDefaultType;
     @Bean
     public ConsumerFactory<String, MessageDto> consumerFactory() {
 
@@ -42,7 +39,7 @@ public class KafkaConfig {
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         config.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        config.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaultType);
+        config.put(JsonDeserializer.TYPE_MAPPINGS, typeMapping);
         config.put(JsonDeserializer.TRUSTED_PACKAGES, trustedPackages);
         return new DefaultKafkaConsumerFactory<>(config);
     }

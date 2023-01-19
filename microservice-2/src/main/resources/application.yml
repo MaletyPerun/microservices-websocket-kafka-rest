@@ -14,4 +14,3 @@ spring:
         spring:
           json:
             type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
-            add-type-info-header: false

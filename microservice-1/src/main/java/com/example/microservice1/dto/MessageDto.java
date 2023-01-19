@@ -26,12 +26,16 @@ public class MessageDto implements Serializable {
     @NotNull
     private int session;
     @NotNull
-    private LocalDateTime MC1_timestamp;
+    @JsonProperty("MC1_timestamp")
+    private LocalDateTime mc1Timestamp;
     @NotNull
-    private LocalDateTime MC2_timestamp;
+    @JsonProperty("MC2_timestamp")
+    private LocalDateTime mc2Timestamp;
     @NotNull
-    private LocalDateTime MC3_timestamp;
+    @JsonProperty("MC3_timestamp")
+    private LocalDateTime mc3Timestamp;
 //    @NotNull
-    private LocalDateTime end_timestamp;
+    @JsonProperty("end_timestamp")
+    private LocalDateTime endTimestamp;
 
 }

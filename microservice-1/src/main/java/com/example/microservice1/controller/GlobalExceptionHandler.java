@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -15,13 +14,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.net.http.HttpHeaders;
 import java.util.Map;
 
 @RestControllerAdvice
 @AllArgsConstructor
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     private final ErrorAttributes errorAttributes;
 
@@ -37,19 +36,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return createResponseEntity(request, e.getOptions(), e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(EndTimeOfWorkException.class)
-//    @ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
-//    protected ResponseEntity<Object> handleBlankException(WebRequest request, EndTimeOfWorkException e) {
-//        return createResponseEntity(request, e.getOptions(), e.getMessage(), HttpStatus.NOT_FOUND);
-//    }
-
-//    @NonNull
-//    @Override
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-//            @NotNull MethodArgumentNotValidException ex,
-//            @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
-//        return createResponseEntity(request, ErrorAttributeOptions.defaults(), "Объект не должен быть пустым", HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            @NotNull MethodArgumentNotValidException ex,
+            @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
+        return createResponseEntity(request, ErrorAttributeOptions.defaults(), "Объект не должен быть пустым", HttpStatus.BAD_REQUEST);
+    }
 
 
     @SuppressWarnings("unchecked")

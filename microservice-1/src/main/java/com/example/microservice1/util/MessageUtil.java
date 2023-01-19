@@ -13,10 +13,10 @@ public class MessageUtil {
         log.info("from dto to message = {}", messageDto);
         return new Message(messageDto.getId(),
                 messageDto.getSession(),
-                messageDto.getMC1_timestamp(),
-                messageDto.getMC2_timestamp(),
-                messageDto.getMC3_timestamp(),
-                messageDto.getEnd_timestamp());
+                messageDto.getMc1Timestamp(),
+                messageDto.getMc2Timestamp(),
+                messageDto.getMc3Timestamp(),
+                messageDto.getEndTimestamp());
     }
 
     public static MessageDto messageToDto(Message message) {

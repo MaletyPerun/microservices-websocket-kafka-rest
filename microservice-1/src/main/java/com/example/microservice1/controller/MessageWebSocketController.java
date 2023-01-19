@@ -30,6 +30,7 @@ public class MessageWebSocketController {
         String message = JsonHelper.toJson(newMessageDto);
         CompletableFuture<WebSocketSession> fut = client.execute(webSocketHandler, uriWebsocket);
 
+        // fut.join - работает
         try (WebSocketSession session = fut.get()) {
             session.sendMessage(new TextMessage(message));
         } catch (IOException | ExecutionException e) {

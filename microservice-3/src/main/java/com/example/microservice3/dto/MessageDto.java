@@ -1,5 +1,6 @@
 package com.example.microservice3.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
@@ -23,9 +24,13 @@ public class MessageDto implements Serializable {
     private int id;
     @NotNull
     private int session;
-    private LocalDateTime MC1_timestamp;
-    private LocalDateTime MC2_timestamp;
-    private LocalDateTime MC3_timestamp;
-    private LocalDateTime end_timestamp;
+    @JsonProperty("MC1_timestamp")
+    private LocalDateTime mc1Timestamp;
+    @JsonProperty("MC2_timestamp")
+    private LocalDateTime mc2Timestamp;
+    @JsonProperty("MC3_timestamp")
+    private LocalDateTime mc3Timestamp;
+    @JsonProperty("end_timestamp")
+    private LocalDateTime endTimestamp;
 
 }

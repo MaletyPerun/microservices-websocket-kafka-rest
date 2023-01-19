@@ -21,7 +21,7 @@ public class MessageService {
             log.error("error with sleep = {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
-        received.setMC3_timestamp(TimeUtil.getDateTime());
+        received.setMc3Timestamp(TimeUtil.getDateTime());
         messageController.sendDtoToMS1(received);
     }
 }

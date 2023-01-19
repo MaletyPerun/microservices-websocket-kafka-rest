@@ -24,7 +24,7 @@ public class MessageService {
             log.error("error with sleep = {}", e.getMessage());
             Thread.currentThread().interrupt();
         }
-        received.setMC2_timestamp(TimeUtil.getDateTime());
+        received.setMc2Timestamp(TimeUtil.getDateTime());
         ProducerRecord<String, MessageDto> receivedProducerRecord = new ProducerRecord<>(topic, received);
         log.info("send message via kafka = {}", receivedProducerRecord);
         this.kafkaTemplate.send(receivedProducerRecord);

@@ -29,7 +29,7 @@ public class MessageSender {
             restTemplate.exchange(
                     "http://localhost:53251/MS1/service", HttpMethod.POST, entity, String.class);
         } catch (RestClientException e) {
-            throw new RuntimeException(e);
+            log.error(e.getMessage());
         }
 
     }

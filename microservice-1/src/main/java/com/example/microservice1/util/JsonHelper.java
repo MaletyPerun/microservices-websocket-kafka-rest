@@ -24,7 +24,6 @@ public final class JsonHelper {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("error with conversation into JSON = {}", e.getMessage());
-            // TODO: 08.01.2023 обработка исключений
             throw new RuntimeException(e);
         }
     }

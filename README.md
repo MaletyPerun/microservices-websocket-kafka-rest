@@ -1,31 +1,62 @@
-# Getting Started
+#### Цель задания – разработать 3 микросервиса для передачи сообщения определенного формата с использовнаием Apache Kafka, WebSocket и REST API.
 
-### Reference Documentation
+-------
 
-For further reference, please consider the following sections:
+### ТЗ:
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.1/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.0.1/gradle-plugin/reference/html/#build-image)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.0.1/reference/htmlsingle/#web)
-* [Validation](https://docs.spring.io/spring-boot/docs/3.0.1/reference/htmlsingle/#io.validation)
-* [Spring for Apache Kafka](https://docs.spring.io/spring-boot/docs/3.0.1/reference/htmlsingle/#messaging.kafka)
-
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Validation](https://spring.io/guides/gs/validating-form-input/)
-
-### Additional Links
-
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+Создать три взаимодействующих между собой микросервиса МС1, МС2 и МС3. Микросервисы взаимодействую между собой следующим образом:
+1) МС1 создает сообщение следующего формата:
 
 
-конфигурация времени работы взаимодействия микросервисов - microservice-1/../application.yml
+      {
+         id: integer,
+         “session_id”: integer,
+         “MC1_timestamp”: datetime,
+         “MC2_timestamp”: datetime,
+         “MC3_timestamp”: datetime,
+         “end_timestamp”: datetime
+      }
+“session_id” - номер сеанса взаимодействия 
 
+записывает в поле “MC1_timestamp” текущее время и отправляет сообщение в МС2 через WebSocket;
+3) МС2 принимает сообщение от МС1, записывает в поле сообщения “МС2_timestamp” текущее время и отправляет сообщение в МС3 через топик брокера Kafka;
+4) МС3 принимает сообщение от МС2, записывает в поле сообщения “МС3_timestamp” текущее время и отправляет сообщение в МС1 посредством отправки http запроса POST с телом, содержащим сообщение;
+5) МС1 принимает сообщение от МС3, записывает в поле“end_timestamp” текущее время, записывает сообщение в базу данных;
+6) повторить цикл взаимодействия в течение заданного интервала взаимодействия.
+   Длительность интервала взаимодействия задается в секундах параметром в конфигурационном файле.
+   Запуск микросервисов и окружения производить в docker-compose.
+   Старт взаимодействия осуществить отправкой запроса GET на /start/ без параметров в МС1.
+   Досрочную остановку взаимодействия осуществить отправкой запроса GET на /stop/ без параметров в МС1.
+   Начало взаимодействия микросервисов индицировать на консоль.
+   Завершение взаимодействия индицировать на консоль с выводом следующих параметров:
+- время взаимодействия; 
+- количество сообщений, сгенерированных во время взаимодействия.
+
+-------
+
+Время взаимодействия микросервисов задается параметром `app.ms1.work.time` в ресурсах первого микросервиса (microservice-1)
+Сообщения между МС1-МС2 и МС3-МС1 передаются в JSON формате с дополнительной настройкой для корректной записи объектов класса LocalDateTime.
+Каждый микросервис запускается на определенному порту, порты указаны в файлах конфигурации.
+
+-------
+
+#### Для запуска микросервисов используется Docker
+В командной строке выполнить:
+
+      docker-compose up
+
+-------
+
+API:
+
+####  Запустить процесс взаимодействия микросервисов
+`curl --location --request GET 'http://localhost:53251/MS1/start`
+
+#### Остановить процесс взаимодействия микросервисов
+`curl --location --request GET 'http://localhost:53251/MS1/stop`
+
+#### Получить сообщение с номером {id}
+`curl --location --request GET 'http://localhost:53251/MS1/message?id={id}`
+
+#### Получить все сообщения 
+`curl --location --request GET 'http://localhost:53251/MS1/all`

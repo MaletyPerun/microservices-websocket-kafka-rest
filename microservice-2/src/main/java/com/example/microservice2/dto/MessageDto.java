@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 @ToString
 public class MessageDto implements Serializable {
 
-    // TODO: 08.01.2023 валидация и обработка исключений
     @Serial
     private static final long serialVersionUID = 1L;
     @NotNull
@@ -38,5 +37,4 @@ public class MessageDto implements Serializable {
     private LocalDateTime mc3Timestamp;
     @JsonProperty("end_timestamp")
     private LocalDateTime endTimestamp;
-
 }

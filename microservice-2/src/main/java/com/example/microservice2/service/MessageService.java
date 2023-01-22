@@ -5,6 +5,7 @@ import com.example.microservice2.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MessageService {
 
-    private String topic = "kafka-service-demo";
+    @Value("${spring.kafka.topic.name}")
+    private String topic;
 
     private final KafkaTemplate<String, MessageDto> kafkaTemplate;
 
@@ -27,9 +29,7 @@ public class MessageService {
         received.setMc2Timestamp(TimeUtil.getDateTime());
         ProducerRecord<String, MessageDto> receivedProducerRecord = new ProducerRecord<>(topic, received);
         log.info("send message via kafka = {}", receivedProducerRecord);
-        this.kafkaTemplate.send(receivedProducerRecord);
-
-        // FIXME: 16.01.2023 после окончанию работы по времени kafka продолжает слать сообщения в consumer: как убрать повторные передачи сообщения?
+        kafkaTemplate.send(receivedProducerRecord);
     }
 }
 

@@ -2,7 +2,7 @@ logging:
   pattern:
     console: '%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n'
 server:
-  port: 53252
+  port: 53253
 spring:
   application:
     name: microservice-2
@@ -16,3 +16,12 @@ spring:
         spring:
           json:
             type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: messageConfig
+      properties:
+        spring:
+          json:
+            type-mapping: MessageDto:com.example.microservice2.dto.MessageDto
+            trusted:
+              packages: 'MessageDto:com.example.microservice2.dto.MessageDto'

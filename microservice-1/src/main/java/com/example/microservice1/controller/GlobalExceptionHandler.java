@@ -2,7 +2,6 @@ package com.example.microservice1.controller;
 
 import com.example.microservice1.service.EmptyException;
 import com.example.microservice1.service.NotFoundException;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.net.http.HttpHeaders;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -38,10 +36,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            @NotNull MethodArgumentNotValidException ex,
-            @NonNull HttpHeaders headers, @NonNull HttpStatus status, @NonNull WebRequest request) {
-        return createResponseEntity(request, ErrorAttributeOptions.defaults(), "Объект не должен быть пустым", HttpStatus.BAD_REQUEST);
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull WebRequest request) {
+        return createResponseEntity(request, ErrorAttributeOptions.defaults(), "Значения полей не должны быть пустыми", HttpStatus.BAD_REQUEST);
     }
 
 

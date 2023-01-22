@@ -1,4 +1,4 @@
-package com.example.microservice1.exception;
+package com.example.microservice1.service;
 
 import lombok.Getter;
 import org.springframework.boot.web.error.ErrorAttributeOptions;

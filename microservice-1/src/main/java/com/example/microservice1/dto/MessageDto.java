@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MessageDto implements Serializable {
 
-    // TODO: 08.01.2023 ВОИ
-    // TODO: 17.01.2023 использовать jsonProperty, но будет отваливаться МС3, что отправляет невалидное сообщение
     @Serial
     private static final long serialVersionUID = 1L;
     @NotNull
@@ -34,7 +32,6 @@ public class MessageDto implements Serializable {
     @NotNull
     @JsonProperty("MC3_timestamp")
     private LocalDateTime mc3Timestamp;
-//    @NotNull
     @JsonProperty("end_timestamp")
     private LocalDateTime endTimestamp;
 

@@ -9,11 +9,16 @@ spring:
   kafka:
     topic:
       name: kafka-service-demo
+    producer:
+      bootstrap-servers: localhost:9092
+      client-id: messageConfig
+      properties:
+        spring:
+          json:
+            type-mapping: MessageDto:com.example.microservice3.dto.MessageDto
     consumer:
       bootstrap-servers: localhost:9092
       group-id: messageConfig
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
         spring:
           json:

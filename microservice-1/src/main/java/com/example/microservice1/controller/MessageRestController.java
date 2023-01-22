@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/MS1")
-//@Validated
 @RequiredArgsConstructor
 @Slf4j
 public class MessageRestController {

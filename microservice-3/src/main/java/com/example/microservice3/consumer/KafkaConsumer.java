@@ -12,13 +12,19 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaConsumer {
 
+    private MessageDto received;
     private final MessageService messageService;
-    @KafkaListener(topics = "kafka-service-demo",
+    @KafkaListener(topics = "${spring.kafka.topic.name}",
             groupId = "messageConfig",
             containerFactory = "messageListener")
     public void consume(MessageDto received) {
         log.info("take dto from kafka-producer via kafka-consumer = {}", received.toString());
+        this.received = received;
         messageService.sendDtoToMS1(received);
+    }
+
+    public int getReceived() {
+        return received.getId();
     }
 }
 

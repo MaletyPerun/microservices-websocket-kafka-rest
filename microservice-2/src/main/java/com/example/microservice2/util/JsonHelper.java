@@ -20,7 +20,6 @@ public final class JsonHelper {
         mapper.setVisibility(PropertyAccessor.GETTER, JsonAutoDetect.Visibility.NONE);
     }
 
-    // TODO: 08.01.2023 обработка исключений
     public static <T> T fromJson(String json, Class<T> type) {
         try {
             return mapper.readValue(json, type);

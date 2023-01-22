@@ -6,13 +6,9 @@ import com.example.microservice1.model.Message;
 import com.example.microservice1.repository.MessageRepository;
 import com.example.microservice1.util.MessageUtil;
 import com.example.microservice1.util.TimeUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,26 +22,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class MessageService {
 
     // TODO: 08.01.2023 https://devmark.ru/article/crud-repository
-    // обработка исключений с БД
-
-    // TODO: 08.01.2023 тут же смотреть дублирование id и сессии (раздел добавление и удаление)
-    // TODO: 08.01.2023 ВОИ
-
     private final MessageRepository messageRepository;
-
     private final MessageWebSocketController webSocketController;
-
     private static final AtomicInteger SESSION_ID = new AtomicInteger(0);
-
     private static LocalDateTime startTime;
-
     private static LocalDateTime endTime;
-
-    // FIXME: 15.01.2023 правильно вытягивать значение из проперти
-
     @Value("${app.ms1.work.time}")
     private int workTimeInSec;
-
     private static boolean flagWork = false;
 
     public Message getMessage(int id) {
@@ -85,8 +68,6 @@ public class MessageService {
             if (endTime.isBefore(TimeUtil.getDateTime())) {
                 log.info("time is out");
             }
-//            log.info("time of work is = {} sec", ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime()));
-//            log.info("amount messages of session = {}", messageRepository.findMessageById(SESSION_ID.get()));
         }
         return saved;
     }
@@ -119,7 +100,6 @@ public class MessageService {
     }
 
     public String stopWork() {
-        // TODO: 17.01.2023 проверка на дублирвоание остановки
         flagWork = false;
         int amount = messageRepository.findMessagesBySession(SESSION_ID.get()).size();
         long time = endTime.isBefore(TimeUtil.getDateTime()) ? workTimeInSec : ChronoUnit.SECONDS.between(startTime, TimeUtil.getDateTime());

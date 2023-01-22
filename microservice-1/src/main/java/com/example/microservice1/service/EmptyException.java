@@ -1,6 +1,5 @@
 package com.example.microservice1.service;
 
-import com.example.microservice1.exception.AppException;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.http.HttpStatus;
 

@@ -1,5 +1,6 @@
 package com.example.microservice3;
 
+import com.example.microservice3.config.KafkaConfig;
 import com.example.microservice3.consumer.KafkaConsumer;
 import com.example.microservice3.dto.MessageDto;
 import com.example.microservice3.util.TimeUtil;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 
@@ -17,7 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //https://www.baeldung.com/spring-boot-kafka-testing
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka
+@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
+@Import(KafkaConfig.class)
 class KafkaConsumerTest {
 
     @Autowired
@@ -25,9 +28,6 @@ class KafkaConsumerTest {
 
     @Autowired
     private KafkaProducer producer;
-    // FIXME: 20.01.2023 при использовании @TestConfiguration KafkaConfigProducer выпадает ошибка:
-//    class com.example.microservice3.dto.MessageDto cannot be cast to class java.lang.String (com.example.microservice3.dto.MessageDto is in unnamed module of loader 'app'; java.lang.String is in module java.base of loader 'bootstrap')
-    // FIXME: 20.01.2023 какую аннотацию использовать?
 
     @Value("${spring.kafka.topic.name}")
     private String topic;
@@ -42,9 +42,12 @@ class KafkaConsumerTest {
         testMessageDto.setMc3Timestamp(TimeUtil.getDateTime().plus(10L, ChronoUnit.SECONDS));
 
         producer.sendTestMessage(topic, testMessageDto);
-        
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         int id = consumer.getReceived();
-        
         assertEquals(testMessageDto.getId(), id);
     }
 }

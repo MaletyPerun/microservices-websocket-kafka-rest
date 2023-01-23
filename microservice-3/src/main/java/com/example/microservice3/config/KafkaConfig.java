@@ -50,6 +50,8 @@ public class KafkaConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
+//        CommonErrorHandler
+//        factory.setCommonErrorHandler()
         return factory;
     }
 }

@@ -1,8 +1,10 @@
 package com.example.microservice3.config;
 
 import com.example.microservice3.dto.MessageDto;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,7 @@ import java.util.Map;
 //https://www.geeksforgeeks.org/spring-boot-kafka-consumer-example/amp/
 @Configuration
 @EnableKafka
+@RequiredArgsConstructor
 public class KafkaConfig {
 
     @Value("${spring.kafka.consumer.bootstrap-servers}")
@@ -29,6 +32,9 @@ public class KafkaConfig {
     private String typeMapping;
     @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
     private String trustedPackages;
+
+    @Autowired
+    private final MyCommonErrorHandler myCommonErrorHandler;
     @Bean
     public ConsumerFactory<String, MessageDto> consumerFactory() {
 
@@ -50,8 +56,7 @@ public class KafkaConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
-//        CommonErrorHandler
-//        factory.setCommonErrorHandler()
+        factory.setCommonErrorHandler(myCommonErrorHandler);
         return factory;
     }
 }
